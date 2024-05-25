@@ -24,13 +24,14 @@ function Login() {
         username,
         password,
       });
-
-      updateUser(res.data)
+      localStorage.setItem("user", JSON.stringify(res.data));
+      // updateUser(res.data)
 
       navigate("/");
     } catch (err) {
       setError(err.response.data.message);
-    } finally {
+    } 
+    finally {
       setIsLoading(false);
     }
   };

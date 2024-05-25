@@ -8,13 +8,13 @@ function Register() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setError("")
-    // setIsLoading(true);
+    setError("")
+    setIsLoading(true);
     const formData = new FormData(e.target);
 
     const username = formData.get("username");
@@ -28,13 +28,14 @@ function Register() {
         email,
         password,
       });
-      console.log(res.data);
-    //   navigate("/login");
+      alert("Đăng ký thành công! Cám ơn bạn đã tham gia!");
+      navigate("/login");
     } catch (err) {
       console.log(err)
-    //   setError(err.response.data.message);
-    // } finally {
-    //   setIsLoading(false);
+      setError(err.response.data.message);
+    } 
+    finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -45,7 +46,8 @@ function Register() {
           <input name="username" type="text" placeholder="Username" />
           <input name="email" type="text" placeholder="Email" />
           <input name="password" type="password" placeholder="Password" />
-          <button >Register</button>
+          <button disabled={isLoading}>Register</button>
+          {error && <span>{error}</span>}
           <Link to="/login">Do you have an account?</Link>
         </form>
       </div>
