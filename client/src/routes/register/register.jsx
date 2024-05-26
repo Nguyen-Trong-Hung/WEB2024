@@ -10,7 +10,6 @@ function Register() {
 
   const navigate = useNavigate();
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("")
@@ -21,27 +20,24 @@ function Register() {
     const email = formData.get("email");
     const password = formData.get("password");
 
-    console.log(username, email, password);
     try {
       const res = await apiRequest.post("/auth/register", {
         username,
         email,
         password,
       });
-      alert("Đăng ký thành công! Cám ơn bạn đã tham gia!");
+
       navigate("/login");
     } catch (err) {
-      console.log(err)
       setError(err.response.data.message);
-    } 
-    finally {
+    } finally {
       setIsLoading(false);
     }
   };
   return (
-    <div className="register">
+    <div className="registerPage">
       <div className="formContainer">
-      <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <h1>Create an Account</h1>
           <input name="username" type="text" placeholder="Username" />
           <input name="email" type="text" placeholder="Email" />
