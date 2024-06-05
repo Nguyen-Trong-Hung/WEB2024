@@ -30,7 +30,16 @@
         padding-right: 0px;
       }
 
+      .slider {
+        width: 100%; /* Đảm bảo slider chiếm toàn bộ chiều rộng của container */
+        height: 300px; /* Chiều cao của slider */
+        overflow: hidden; /* Ẩn phần tràn ra ngoài của hình ảnh */
+        display: flex; /* Để xếp hình ảnh theo hàng ngang */
+      }
+      
+
       .info {
+
         margin-top: 50px;
         .top {
           display: flex;

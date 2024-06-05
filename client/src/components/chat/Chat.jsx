@@ -3,8 +3,8 @@ import "./chat.scss";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
 import { format } from "timeago.js";
-// import { SocketContext } from "../../context/SocketContext";
-// import { useNotificationStore } from "../../lib/notificationStore";
+import { SocketContext } from "../../context/SocketContext";
+import { useNotificationStore } from "../../lib/notificationStore";
 
 function Chat({ chats }) {
   const [chat, setChat] = useState(null);
@@ -76,7 +76,7 @@ function Chat({ chats }) {
   return (
     <div className="chat">
       <div className="messages">
-        <h1>Messages</h1>
+        <h1>Tin nhắn</h1>
         {chats?.map((c) => (
           <div
             className="message"
@@ -89,8 +89,14 @@ function Chat({ chats }) {
             }}
             onClick={() => handleOpenChat(c.id, c.receiver)}
           >
-            <img src={c.receiver.avatar || "/noavatar.jpg"} alt="" />
-            <span>{c.receiver.username}</span>
+            {c.receiver ? (
+              <>
+                <img src={c.receiver.avatar || "/noavatar.jpg"} alt="" />
+                <span>{c.receiver.username}</span>
+              </>
+            ) : (
+              <span>Receiver not found</span>
+            )}
             <p>{c.lastMessage}</p>
           </div>
         ))}
@@ -98,10 +104,14 @@ function Chat({ chats }) {
       {chat && (
         <div className="chatBox">
           <div className="top">
-            <div className="user">
-              <img src={chat.receiver.avatar || "noavatar.jpg"} alt="" />
-              {chat.receiver.username}
-            </div>
+            {chat.receiver ? (
+              <div className="user">
+                <img src={chat.receiver.avatar || "noavatar.jpg"} alt="" />
+                {chat.receiver.username}
+              </div>
+            ) : (
+              <div className="user">Receiver not found</div>
+            )}
             <span className="close" onClick={() => setChat(null)}>
               X
             </span>
@@ -128,7 +138,7 @@ function Chat({ chats }) {
           </div>
           <form onSubmit={handleSubmit} className="bottom">
             <textarea name="text"></textarea>
-            <button>Send</button>
+            <button>Gửi</button>
           </form>
         </div>
       )}

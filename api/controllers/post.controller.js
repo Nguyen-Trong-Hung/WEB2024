@@ -81,6 +81,28 @@ export const addPost = async (req, res) => {
   const body = req.body;
   const tokenUserId = req.userId;
 
+  // Kiểm tra xem các trường bắt buộc có giá trị hay không
+  if (
+    !body.postData ||
+    !body.postData.title ||
+    body.postData.price == null ||  // Kiểm tra null hoặc undefined
+    !body.postData.address ||
+    !body.postData.city ||
+    body.postData.bedroom == null ||  // Kiểm tra null hoặc undefined
+    body.postData.bathroom == null ||  // Kiểm tra null hoặc undefined
+    !body.postData.type ||
+    !body.postData.property ||
+    !body.postData.latitude ||
+    !body.postData.longitude ||
+    !Array.isArray(body.postData.images) || body.postData.images.length === 0 ||
+    !body.postDetail ||
+    !body.postDetail.desc ||
+    !body.postDetail.utilities ||
+    !body.postDetail.pet
+  ) {
+    return res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin!" });
+  }
+
   try {
     const newPost = await prisma.post.create({
       data: {
@@ -94,9 +116,10 @@ export const addPost = async (req, res) => {
     res.status(200).json(newPost);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to create post" });
+    res.status(500).json({ error: err.message }); // Hiển thị thông tin chi tiết về lỗi
   }
 };
+
 
 export const updatePost = async (req, res) => {
   try {

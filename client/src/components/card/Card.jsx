@@ -15,26 +15,26 @@ function Card({ item }) {
           <img src="/pin.png" alt="" />
           <span>{item.address}</span>
         </p>
-        <p className="price">$ {item.price}</p>
+        <p className="price">{item.price} tỉ</p>
         <div className="bottom">
           <div className="features">
             <div className="feature">
               <img src="/bed.png" alt="" />
-              <span>{item.bedroom} bedroom</span>
+              <span>{item.bedroom} phòng ngủ</span>
             </div>
             <div className="feature">
               <img src="/bath.png" alt="" />
-              <span>{item.bathroom} bathroom</span>
+              <span>{item.bathroom} phòng tắm</span>
             </div>
           </div>
-          <div className="icons">
+          {/* <div className="icons">
             <div className="icon">
               <img src="/save.png" alt="" />
             </div>
             <div className="icon">
               <img src="/chat.png" alt="" />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

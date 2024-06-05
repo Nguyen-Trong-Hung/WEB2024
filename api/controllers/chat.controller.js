@@ -3,6 +3,10 @@ import prisma from "../lib/prisma.js";
 export const getChats = async (req, res) => {
   const tokenUserId = req.userId;
 
+  if (!tokenUserId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+
   try {
     const chats = await prisma.chat.findMany({
       where: {
@@ -12,8 +16,15 @@ export const getChats = async (req, res) => {
       },
     });
 
-    for (const chat of chats) {
+    const chatPromises = chats.map(async (chat) => {
       const receiverId = chat.userIDs.find((id) => id !== tokenUserId);
+
+      if (!receiverId) {
+        return {
+          ...chat,
+          receiver: null,
+        };
+      }
 
       const receiver = await prisma.user.findUnique({
         where: {
@@ -25,15 +36,23 @@ export const getChats = async (req, res) => {
           avatar: true,
         },
       });
-      chat.receiver = receiver;
-    }
 
-    res.status(200).json(chats);
+      return {
+        ...chat,
+        receiver,
+      };
+    });
+
+    const chatResults = await Promise.all(chatPromises);
+
+    res.status(200).json(chatResults);
   } catch (err) {
-    console.log(err);
+    console.error('Error getting chats:', err);
     res.status(500).json({ message: "Failed to get chats!" });
   }
 };
+
+
 
 export const getChat = async (req, res) => {
   const tokenUserId = req.userId;

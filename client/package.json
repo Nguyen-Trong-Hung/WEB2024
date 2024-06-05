@@ -19,7 +19,9 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.23.1",
     "sass": "^1.77.0",
-    "timeago.js": "^4.0.2"
+    "socket.io-client": "^4.7.5",
+    "timeago.js": "^4.0.2",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

@@ -40,24 +40,24 @@ function Login() {
     <div className="login">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
-          <h1>Welcome back</h1>
+          <h1>Chào mừng bạn đến với chúng tôi!</h1>
           <input
             name="username"
             required
             minLength={3}
             maxLength={20}
             type="text"
-            placeholder="Username"
+            placeholder="Tài khoản"
           />
           <input
             name="password"
             type="password"
             required
-            placeholder="Password"
+            placeholder="Mật khẩu"
           />
-          <button disabled={isLoading}>Login</button>
+          <button disabled={isLoading}>Đăng nhập</button>
           {error && <span>{error}</span>}
-          <Link to="/register">{"Don't"} you have an account?</Link>
+          <Link to="/register">Bạn {"chưa"} có tài khoản?</Link>
         </form>
       </div>
       <div className="imgContainer">

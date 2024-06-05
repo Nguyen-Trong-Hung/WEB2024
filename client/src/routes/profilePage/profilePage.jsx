@@ -27,9 +27,9 @@ function ProfilePage() {
       <div className="details">
         <div className="wrapper">
           <div className="title">
-            <h1>User Information</h1>
+            <h1>Thông tin người dùng</h1>
             <Link to="/profile/update">
-              <button>Update Profile</button>
+              <button>Chỉnh sửa hồ sơ</button>
             </Link>
           </div>
           <div className="info">
@@ -38,34 +38,34 @@ function ProfilePage() {
               <img src={currentUser.avatar || "noavatar.jpg"} alt="" />
             </span>
             <span>
-              Username: <b>{currentUser.username}</b>
+              Tên đăng nhập: <b>{currentUser.username}</b>
             </span>
             <span>
               E-mail: <b>{currentUser.email}</b>
             </span>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}>Đăng xuất</button>
           </div>
           <div className="title">
-            <h1>My List</h1>
+            <h1>Bài viết của tôi</h1>
             <Link to="/add">
-              <button>Create New Post</button>
+              <button>Tạo bài mới</button>
             </Link>
           </div>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<p>Đang tải...</p>}>
             <Await
               resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
+              errorElement={<p>Lỗi tải!</p>}
             >
               {(postResponse) => <List posts={postResponse.data.userPosts} />}
             </Await>
           </Suspense>
           <div className="title">
-            <h1>Saved List</h1>
+            <h1>Bài viết đã lưu</h1>
           </div>
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<p>Đang tải...</p>}>
             <Await
               resolve={data.postResponse}
-              errorElement={<p>Error loading posts!</p>}
+              errorElement={<p>Lỗi tải!</p>}
             >
               {(postResponse) => <List posts={postResponse.data.savedPosts} />}
             </Await>
@@ -74,10 +74,10 @@ function ProfilePage() {
       </div>
       <div className="chatContainer">
         <div className="wrapper">
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<p>Đang tải...</p>}>
             <Await
               resolve={data.chatResponse}
-              errorElement={<p>Error loading chats!</p>}
+              errorElement={<p>Lỗi tải!</p>}
             >
               {(chatResponse) => <Chat chats={chatResponse.data}/>}
             </Await>

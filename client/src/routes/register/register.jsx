@@ -38,13 +38,13 @@ function Register() {
     <div className="registerPage">
       <div className="formContainer">
         <form onSubmit={handleSubmit}>
-          <h1>Create an Account</h1>
-          <input name="username" type="text" placeholder="Username" />
+          <h1>Tạo một tài khoản mới</h1>
+          <input name="username" type="text" placeholder="Tài khoản" />
           <input name="email" type="text" placeholder="Email" />
-          <input name="password" type="password" placeholder="Password" />
-          <button disabled={isLoading}>Register</button>
+          <input name="password" type="password" placeholder="Mật khẩu" />
+          <button disabled={isLoading}>Đăng ký</button>
           {error && <span>{error}</span>}
-          <Link to="/login">Do you have an account?</Link>
+          <Link to="/login">Bạn đã có tài khoản?</Link>
         </form>
       </div>
       <div className="imgContainer">

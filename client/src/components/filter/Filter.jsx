@@ -27,16 +27,16 @@ function Filter() {
   return (
     <div className="filter">
       <h1>
-        Search results for <b>{searchParams.get("city")}</b>
+        Kết quả tìm kiếm <b>{searchParams.get("city")}</b>
       </h1>
       <div className="top">
         <div className="item">
-          <label htmlFor="city">Location</label>
+          <label htmlFor="city">Địa chỉ</label>
           <input
             type="text"
             id="city"
             name="city"
-            placeholder="City Location"
+            placeholder="Thành phố"
             onChange={handleChange}
             defaultValue={query.city}
           />
@@ -44,62 +44,62 @@ function Filter() {
       </div>
       <div className="bottom">
         <div className="item">
-          <label htmlFor="type">Type</label>
+          <label htmlFor="type">Phương thức</label>
           <select
             name="type"
             id="type"
             onChange={handleChange}
             defaultValue={query.type}
           >
-            <option value="">any</option>
-            <option value="buy">Buy</option>
-            <option value="rent">Rent</option>
+            <option value="">Tùy chọn</option>
+            <option value="buy">Mua</option>
+            <option value="rent">Mượn</option>
           </select>
         </div>
         <div className="item">
-          <label htmlFor="property">Property</label>
+          <label htmlFor="property">Loại</label>
           <select
             name="property"
             id="property"
             onChange={handleChange}
             defaultValue={query.property}
           >
-            <option value="">any</option>
-            <option value="apartment">Apartment</option>
-            <option value="house">House</option>
-            <option value="condo">Condo</option>
-            <option value="land">Land</option>
+            <option value="">Tùy chọn</option>
+            <option value="apartment">Căn hộ</option>
+            <option value="house">Ngôi nhà</option>
+            <option value="condo">Chung cư</option>
+            <option value="land">Đất</option>
           </select>
         </div>
         <div className="item">
-          <label htmlFor="minPrice">Min Price</label>
+          <label htmlFor="minPrice">Giá thấp nhất</label>
           <input
             type="number"
             id="minPrice"
             name="minPrice"
-            placeholder="any"
+            placeholder="Tùy chọn"
             onChange={handleChange}
             defaultValue={query.minPrice}
           />
         </div>
         <div className="item">
-          <label htmlFor="maxPrice">Max Price</label>
+          <label htmlFor="maxPrice">Giá cao nhất</label>
           <input
             type="text"
             id="maxPrice"
             name="maxPrice"
-            placeholder="any"
+            placeholder="Tùy chọn"
             onChange={handleChange}
             defaultValue={query.maxPrice}
           />
         </div>
         <div className="item">
-          <label htmlFor="bedroom">Bedroom</label>
+          <label htmlFor="bedroom">Phòng ngủ</label>
           <input
             type="text"
             id="bedroom"
             name="bedroom"
-            placeholder="any"
+            placeholder="Tùy chọn"
             onChange={handleChange}
             defaultValue={query.bedroom}
           />

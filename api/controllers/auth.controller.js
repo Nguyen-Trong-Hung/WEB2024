@@ -25,10 +25,10 @@ export const register = async (req, res) => {
 
     console.log(newUser);
 
-    res.status(201).json({ message: "User created successfully" });
+    res.status(201).json({ message: "Tạo user thành công!" });
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to create user!" });
+    res.status(500).json({ message: "Tạo user thất bại!" });
   }
 };
 
@@ -42,14 +42,14 @@ export const login = async (req, res) => {
       where: { username },
     });
 
-    if (!user) return res.status(400).json({ message: "Invalid Credentials!" });
+    if (!user) return res.status(400).json({ message: "Thông tin đăng nhập không hợp lệ!" });
 
     // CHECK IF THE PASSWORD IS CORRECT
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid)
-      return res.status(400).json({ message: "Invalid Credentials!" });
+      return res.status(400).json({ message: "Thông tin đăng nhập không hợp lệ!" });
 
     // GENERATE COOKIE TOKEN AND SEND TO THE USER
 
@@ -77,10 +77,10 @@ export const login = async (req, res) => {
       .json(userInfo);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to login!" });
+    res.status(500).json({ message: "Đăng nhập thất bại!" });
   }
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("token").status(200).json({ message: "Logout Successful" });
+  res.clearCookie("token").status(200).json({ message: "Đăng xuất thành công!" });
 };
