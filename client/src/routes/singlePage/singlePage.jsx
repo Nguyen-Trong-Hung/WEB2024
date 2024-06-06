@@ -3,15 +3,23 @@ import Slider from "../../components/slider/Slider";
 import Map from "../../components/map/Map";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import apiRequest from "../../lib/apiRequest";
+import ChatPost from "../../components/chat/ChatPost";
 
 function SinglePage() {
   const post = useLoaderData();
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  // State để kiểm soát việc hiển thị của ChatBox
+  const [chatBox, setChatBox] = useState({
+    isOpen: false,
+    data: null,
+  });
+  const [chatResponse, setChatResponse] = useState(null);
 
   const handleSave = async () => {
     if (!currentUser) {
@@ -26,6 +34,31 @@ function SinglePage() {
       setSaved((prev) => !prev);
     }
   };
+
+  // Function để mở ChatBox khi nhấn vào nút "Nhắn tin"
+  const handleOpenChatBox = async () => {
+    setChatBox((prev) => ({
+      ...prev,
+      isOpen: true,
+    }));
+    try {
+      const response = await apiRequest.get("/chats"); // Giả sử đây là API để lấy dữ liệu chat
+      setChatBox((prev) => ({
+        ...prev,
+        data: response,
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+    // Function để đóng ChatBox khi nhấn vào nút "X"
+    const handleCloseChatBox = () => {
+      setChatBox({
+        isOpen: false,
+        data: null,
+      });
+    };
 
   return (
     <div className="singlePage">
@@ -138,7 +171,7 @@ function SinglePage() {
             <Map items={[post]} />
           </div>
           <div className="buttons">
-            <button>
+            <button onClick={handleOpenChatBox}>
               <img src="/chat.png" alt="" />
               Nhắn tin
             </button>
@@ -152,6 +185,13 @@ function SinglePage() {
               {saved ? "Địa điểm đã lưu" : "Lưu địa điểm"}
             </button>
           </div>
+            {/* Hiển thị ChatBox nếu isOpen là true */}
+            {chatBox.isOpen && (
+              <ChatPost
+                handleClose={handleCloseChatBox}
+                chats={chatBox.data}
+              />
+            )}
         </div>
       </div>
     </div>
