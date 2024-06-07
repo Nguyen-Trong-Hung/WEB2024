@@ -8,6 +8,7 @@ import { AuthContext } from "../../context/AuthContext";
 
 function ProfilePage() {
   const data = useLoaderData();
+  console.log(data.chatResponse)
 
   const { updateUser, currentUser } = useContext(AuthContext);
 

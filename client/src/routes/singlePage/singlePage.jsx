@@ -3,29 +3,28 @@ import Slider from "../../components/slider/Slider";
 import Map from "../../components/map/Map";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import DOMPurify from "dompurify";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import apiRequest from "../../lib/apiRequest";
 import ChatPost from "../../components/chat/ChatPost";
+import apiRequest from "../../lib/apiRequest";
 
 function SinglePage() {
-  const post = useLoaderData();
+  const { postData: post, chatData: chats } = useLoaderData();
+  console.log(post);
+  console.log(chats);
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // State để kiểm soát việc hiển thị của ChatBox
   const [chatBox, setChatBox] = useState({
     isOpen: false,
     data: null,
   });
-  const [chatResponse, setChatResponse] = useState(null);
 
   const handleSave = async () => {
     if (!currentUser) {
       navigate("/login");
     }
-    // AFTER REACT 19 UPDATE TO USEOPTIMISTIK HOOK
     setSaved((prev) => !prev);
     try {
       await apiRequest.post("/users/save", { postId: post.id });
@@ -35,30 +34,20 @@ function SinglePage() {
     }
   };
 
-  // Function để mở ChatBox khi nhấn vào nút "Nhắn tin"
   const handleOpenChatBox = async () => {
     setChatBox((prev) => ({
       ...prev,
       isOpen: true,
+      data: chats
     }));
-    try {
-      const response = await apiRequest.get("/chats"); // Giả sử đây là API để lấy dữ liệu chat
-      setChatBox((prev) => ({
-        ...prev,
-        data: response,
-      }));
-    } catch (err) {
-      console.log(err);
-    }
   };
 
-    // Function để đóng ChatBox khi nhấn vào nút "X"
-    const handleCloseChatBox = () => {
-      setChatBox({
-        isOpen: false,
-        data: null,
-      });
-    };
+  const handleCloseChatBox = () => {
+    setChatBox({
+      isOpen: false,
+      data: null,
+    });
+  };
 
   return (
     <div className="singlePage">
@@ -76,8 +65,8 @@ function SinglePage() {
                 <div className="price">{post.price} tỉ VNĐ</div>
               </div>
               <div className="user">
-                <img src={post.user.avatar} alt="" />
-                <span>{post.user.username}</span>
+                <img src={post.user?.avatar || "/noavatar.jpg"} alt="" />
+                <span>{post.user?.username}</span>
               </div>
             </div>
             <div
@@ -185,13 +174,14 @@ function SinglePage() {
               {saved ? "Địa điểm đã lưu" : "Lưu địa điểm"}
             </button>
           </div>
-            {/* Hiển thị ChatBox nếu isOpen là true */}
-            {chatBox.isOpen && (
-              <ChatPost
-                handleClose={handleCloseChatBox}
-                chats={chatBox.data}
-              />
-            )}
+          {/* Hiển thị ChatBox nếu isOpen là true */}
+          {chatBox.isOpen && (
+            <ChatPost 
+            handleClose={handleCloseChatBox} 
+            post={post}
+            chats={chatBox.data}
+          />
+          )}
         </div>
       </div>
     </div>

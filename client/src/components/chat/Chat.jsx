@@ -8,6 +8,7 @@ import { useNotificationStore } from "../../lib/notificationStore";
 
 // Component Chat nhận vào prop "chats"
 function Chat({ chats }) {
+  console.log(chats);
   const [chat, setChat] = useState(null); // State để lưu trữ thông tin cuộc trò chuyện hiện tại
   const { currentUser } = useContext(AuthContext); // Lấy thông tin người dùng hiện tại từ AuthContext
   const { socket } = useContext(SocketContext); // Lấy socket từ SocketContext
