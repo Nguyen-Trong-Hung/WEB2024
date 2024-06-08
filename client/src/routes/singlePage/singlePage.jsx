@@ -10,10 +10,12 @@ import apiRequest from "../../lib/apiRequest";
 
 function SinglePage() {
   const { postData: post, chatData: chats } = useLoaderData();
-  console.log(post);
-  console.log(chats);
+  // console.log(post);
+  // console.log(chats);
   const [saved, setSaved] = useState(post.isSaved);
   const { currentUser } = useContext(AuthContext);
+  // console.log(currentUser);
+  // console.log(post.userId)
   const navigate = useNavigate();
 
   const [chatBox, setChatBox] = useState({
@@ -160,10 +162,12 @@ function SinglePage() {
             <Map items={[post]} />
           </div>
           <div className="buttons">
+          {currentUser.id !== post.userId && (
             <button onClick={handleOpenChatBox}>
               <img src="/chat.png" alt="" />
               Nhắn tin
             </button>
+          )}
             <button
               onClick={handleSave}
               style={{

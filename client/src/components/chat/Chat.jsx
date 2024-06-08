@@ -82,7 +82,7 @@ function Chat({ chats }) {
     <div className="chat">
       <div className="messages">
         <h1>Tin nhắn</h1>
-        {chats?.map((c) => (
+        {chats?.filter(c => c.lastMessage !== null).map((c) => (
           <div
             className="message"
             key={c.id}
