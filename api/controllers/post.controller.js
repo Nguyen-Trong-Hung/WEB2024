@@ -122,11 +122,25 @@ export const addPost = async (req, res) => {
 
 
 export const updatePost = async (req, res) => {
+  const { id } = req.params;
+  const postData = req.body.postData;
+  const postDetail = req.body.postDetail;
+
   try {
-    res.status(200).json();
+    const updatedPost = await prisma.post.update({
+      where: { id },
+      data: {
+        ...postData,
+        postDetail: {
+          update: postDetail
+        }
+      }
+    });
+
+    res.status(200).json(updatedPost);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: "Failed to update posts" });
+    res.status(500).json({ message: "Failed to update post" });
   }
 };
 
@@ -135,14 +149,26 @@ export const deletePost = async (req, res) => {
   const tokenUserId = req.userId;
 
   try {
+    // Kiểm tra xem người dùng hiện tại có quyền xóa bài đăng không
     const post = await prisma.post.findUnique({
       where: { id },
     });
 
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Kiểm tra xem người dùng hiện tại có quyền xóa bài đăng không
     if (post.userId !== tokenUserId) {
       return res.status(403).json({ message: "Not Authorized!" });
     }
 
+    // Xóa bản ghi trong bảng PostDetail liên quan đến bài đăng
+    await prisma.postDetail.delete({
+      where: { postId: id },
+    });
+
+    // Sau khi xóa bản ghi trong bảng PostDetail, tiến hành xóa bài đăng từ bảng Post
     await prisma.post.delete({
       where: { id },
     });

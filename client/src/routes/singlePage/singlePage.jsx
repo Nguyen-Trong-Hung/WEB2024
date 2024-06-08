@@ -51,6 +51,25 @@ function SinglePage() {
     });
   };
 
+  const handleDeletePost = async(postId) => {
+    try{
+      if (!currentUser) {
+        navigate("/login");
+      }
+      if (window.confirm("Bạn có chắc chắn muốn xóa bài viết này không?")) {
+        const response = await apiRequest.delete(`/posts/delete/${postId}`);
+        // Ví dụ: gọi hàm API để xóa bài viết từ cơ sở dữ liệu
+        if (response.status === 200) {
+          // Xóa bài viết thành công, chuyển hướng về trang chủ hoặc thực hiện các hành động khác
+          navigate("/");
+        }
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  };
+  
+
   return (
     <div className="singlePage">
       <div className="details">
@@ -143,7 +162,7 @@ function SinglePage() {
               </div>
             </div>
             <div className="feature">
-              <img src="/pet.png" alt="" />
+              <img src="/bus.png" alt="" />
               <div className="featureText">
                 <span>Trạm xe bus</span>
                 <p>{post.postDetail.bus}m</p>
@@ -162,12 +181,10 @@ function SinglePage() {
             <Map items={[post]} />
           </div>
           <div className="buttons">
-          {currentUser.id !== post.userId && (
-            <button onClick={handleOpenChatBox}>
-              <img src="/chat.png" alt="" />
-              Nhắn tin
-            </button>
-          )}
+          <button onClick={currentUser.id !== post.userId ? handleOpenChatBox : () => handleDeletePost(post.id)}>
+            <img src={currentUser.id !== post.userId ? "/chat.png" : "/delete.jpg"} alt="" />
+            {currentUser.id !== post.userId ? "Nhắn tin" : "Xóa bài viết"}
+          </button>
             <button
               onClick={handleSave}
               style={{

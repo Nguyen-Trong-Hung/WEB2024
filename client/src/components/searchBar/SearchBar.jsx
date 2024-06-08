@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "./searchBar.scss";
-import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 const types = ["buy", "rent"];
 
 function SearchBar() {
+  const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
+
   const [query, setQuery] = useState({
     type: "buy",
     city: "",
@@ -18,6 +22,14 @@ function SearchBar() {
 
   const handleChange = (e) => {
     setQuery((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
+  const handleSubmit = () => {
+    if (currentUser) {
+      navigate(`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`);
+    } else {
+      navigate("/login");
+    }
   };
 
   return (
@@ -56,13 +68,9 @@ function SearchBar() {
           placeholder="Giá cao nhất"
           onChange={handleChange}
         />
-        <Link
-          to={`/list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`}
-        >
-          <button>
-            <img src="/search.png" alt="" />
-          </button>
-        </Link>
+        <button type="button" onClick={handleSubmit}>
+          <img src="/search.png" alt="" />
+        </button>
       </form>
     </div>
   );
