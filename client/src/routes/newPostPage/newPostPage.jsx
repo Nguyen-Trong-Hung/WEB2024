@@ -118,7 +118,7 @@ function NewPostPage() {
               <label htmlFor="type">Phương thức</label>
               <select name="type">
                 <option value="rent" defaultChecked>
-                  Mượn
+                  Thuê
                 </option>
                 <option value="buy">Mua</option>
               </select>

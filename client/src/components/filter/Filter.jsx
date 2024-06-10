@@ -53,7 +53,7 @@ function Filter() {
           >
             <option value="">Tùy chọn</option>
             <option value="buy">Mua</option>
-            <option value="rent">Mượn</option>
+            <option value="rent">Thuê</option>
           </select>
         </div>
         <div className="item">

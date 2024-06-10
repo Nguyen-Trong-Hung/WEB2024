@@ -51,10 +51,10 @@ function ChatPost({ handleClose, post, chats }) {
 
   const handleOpenChat = async (receiverId) => {
     try {
-      const existingChat = chats.find((chat) => chat.receiver.id === receiverId);
+      const existingChat = chats.find((chat) => chat.receiver && chat.receiver.id === receiverId);
       if (existingChat) {
         const res = await apiRequest("/chats/" + existingChat.id);
-        if (!res.data.seenBy.includes(currentUser.id)) {
+        if (res && res.data && !res.data.seenBy.includes(currentUser.id)) {
           decrease();
         }
         setChat({ ...res.data, receiver: existingChat.receiver });
@@ -65,6 +65,7 @@ function ChatPost({ handleClose, post, chats }) {
       console.log(err);
     }
   };
+
 
   useEffect(() => {
     if (post && post.userId && chats) {
