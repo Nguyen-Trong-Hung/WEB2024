@@ -49,9 +49,15 @@ function ChatPost({ handleClose, post, chats }) {
     }
   };
 
-  const handleOpenChat = async (receiverId) => {
+  const handleOpenChat = async (chatId, receiverId) => {
     try {
-      const existingChat = chats.find((chat) => chat.receiver && chat.receiver.id === receiverId);
+      let existingChat;
+      if (chatId) {
+        existingChat = chats.find((chat) => chat.id === chatId);
+      } else {
+        existingChat = chats.find((chat) => chat.receiver && chat.receiver.id === receiverId);
+      }
+
       if (existingChat) {
         const res = await apiRequest("/chats/" + existingChat.id);
         if (res && res.data && !res.data.seenBy.includes(currentUser.id)) {
@@ -66,10 +72,9 @@ function ChatPost({ handleClose, post, chats }) {
     }
   };
 
-
   useEffect(() => {
     if (post && post.userId && chats) {
-      handleOpenChat(post.userId);
+      handleOpenChat(null, post.userId);
     }
   }, [post.userId, chats]);
 

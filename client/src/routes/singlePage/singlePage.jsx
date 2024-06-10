@@ -83,7 +83,7 @@ function SinglePage() {
                   <img src="/pin.png" alt="" />
                   <span>{post.address}</span>
                 </div>
-                <div className="price">{post.price} tỉ VNĐ</div>
+                <div className="price">{post.price} VNĐ</div>
               </div>
               <div className="user">
                 <img src={post.user?.avatar || "/noavatar.jpg"} alt="" />
